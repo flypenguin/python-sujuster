@@ -1,3 +1,9 @@
+1.0.3
+-----
+
+- update package categories in PyPI
+
+
 1.0.2 & 1.0.1
 -------------
 

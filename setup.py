@@ -7,7 +7,7 @@ from pip.download import PipSession
 import io
 
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 
 install_reqs = parse_requirements("./requirements.txt", session=PipSession())
