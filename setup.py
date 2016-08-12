@@ -23,7 +23,7 @@ setup(
     name             = 'sujuster',
     packages         = find_packages(),
     version          = VERSION,
-    description      = 'The SUbtitle adJUSTer - '
+    description      = 'The SUbtitle adJUSTER - '
                        'adjust offsets of a .srt subtitle file',
     long_description = long_description,
     author           = 'Axel Bock',
