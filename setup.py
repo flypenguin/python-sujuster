@@ -34,7 +34,7 @@ setup(
     install_requires = reqs,
     entry_points     = {
         'console_scripts': [
-            'sujuster=sujuster:console_entrypoint',
+            'sujuster=sujust:console_entrypoint',
         ],
     },
     classifiers      = [
