@@ -1,3 +1,4 @@
+*.srt
 .idea/
 dist/
 build/

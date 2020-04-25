@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 
-from setuptools import setup, find_packages
-from pip.req import parse_requirements
-from pip.download import PipSession
-
 import io
 
+from setuptools import setup, find_packages
 
-VERSION = "1.0.3"
 
+VERSION = "1.0.4"
 
-install_reqs = parse_requirements("./requirements.txt", session=PipSession())
-reqs = [str(ir.req) for ir in install_reqs]
+REQUIRED_PACKAGES = []
+
 
 long_description = (
     io.open('README.rst', encoding='utf-8').read() +
@@ -31,7 +28,7 @@ setup(
     url              = 'https://github.com/flypenguin/python-sujuster',
     download_url     = 'https://github.com/flypenguin/python-sujuster/tarball/{}'.format(VERSION),
     keywords         = 'subtitles srt script',
-    install_requires = reqs,
+    install_requires = REQUIRED_PACKAGES,
     entry_points     = {
         'console_scripts': [
             'sujust=sujuster:console_entrypoint',

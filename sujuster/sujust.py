@@ -41,15 +41,19 @@ def get_subtitles(infile):
     :return: Yields [line1, line2, ...] of each subtitle block
     """
     line = "start"
-    while line:
-        line = infile.readline()
-        if not line.strip(): continue
-        st = [line.strip(), infile.readline().strip()]
-        line = infile.readline()
-        while line.strip():
-            st.append(line.strip())
+    try:
+        while line:
             line = infile.readline()
-        yield st
+            if not line.strip(): continue
+            st = [line.strip(), infile.readline().strip()]
+            line = infile.readline()
+            while line.strip():
+                st.append(line.strip())
+                line = infile.readline()
+            yield st
+    except UnicodeDecodeError as e:
+        print("UNICODE ERROR on or after line: ", line)
+        raise e
 
 
 def adjust_subtitle(st, td):
