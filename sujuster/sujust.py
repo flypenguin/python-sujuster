@@ -3,6 +3,9 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 from sys import stdout
 
+
+VERSION = "1.0.3"
+
 config = None
 
 
@@ -47,7 +50,7 @@ def parse_args():
     :return: None
     """
     global config
-    parser = ArgumentParser()
+    parser = ArgumentParser(description=f"Adjust subtitle appearances, v{VERSION}")
     parser.add_argument("srt_file", help="The subtitle file to adjust")
     parser.add_argument(
         "offset",
@@ -64,6 +67,7 @@ def parse_args():
         help="specify the output file. Default: output " "to stdout",
         default=None,
     )
+    parser.add_argument("--version", action="version", version=VERSION)
     config = parser.parse_args()
 
 
