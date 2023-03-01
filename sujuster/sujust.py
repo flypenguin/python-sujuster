@@ -1,9 +1,43 @@
 from argparse import ArgumentParser
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from sys import stdout
 
-
 config = None
+
+
+@dataclass
+class SubtitleEntry:
+    index: int
+    start: datetime
+    stop: datetime
+    lines: list[str]
+
+    @staticmethod
+    def create(lines):
+        index = int(lines.pop(0))
+        tmp = lines.pop(0).split(" --> ")
+        startstop = [datetime.strptime(x + "000", "%H:%M:%S,%f") for x in tmp]
+        return SubtitleEntry(
+            index=index, start=startstop[0], stop=startstop[1], lines=lines
+        )
+
+    def serialize(self):
+        entry = []
+        entry.append(f"{self.index}")
+        entry.append(
+            f"{self.start.strftime('%H:%M:%S,%f')[:-3]}"
+            " --> "
+            f"{self.stop.strftime('%H:%M:%S,%f')[:-3]}"
+        )
+        for line in self.lines:
+            entry.append(line)
+        return "\n".join(entry) + "\n\n"
+
+    def adjust(self, seconds: float):
+        td = timedelta(seconds=seconds)
+        self.start += td
+        self.stop += td
 
 
 def parse_args():
@@ -44,36 +78,17 @@ def get_subtitles(infile):
     try:
         while line:
             line = infile.readline()
-            if not line.strip(): continue
+            if not line.strip():
+                continue
             st = [line.strip(), infile.readline().strip()]
             line = infile.readline()
             while line.strip():
                 st.append(line.strip())
                 line = infile.readline()
-            yield st
+            yield SubtitleEntry.create(st)
     except UnicodeDecodeError as e:
         print("UNICODE ERROR on or after line: ", line)
         raise e
-
-
-def adjust_subtitle(st, td):
-    """
-    Gets a list representing a subtitle. It expects the 'classic' .srt format
-    with hours in the time stamps as the 2nd element of the list. Will then
-    adjust the start and stop time by the given time delta object.
-
-    :param st: The list containing the subtitle
-    :param td: The timedelta object which is used to adjust
-    :return: The processed list, although it is modified in-place.
-    """
-    # we only know microseconds, though the timestamp has milliseconds ...
-    markers = [x + "000" for x in st[1].split(" --> ")]
-    marker_objs = [datetime.strptime(x, "%H:%M:%S,%f") + td for x in markers]
-    st[1] = "{} --> {}".format(
-        marker_objs[0].strftime("%H:%M:%S,%f")[:-3],
-        marker_objs[1].strftime("%H:%M:%S,%f")[:-3]
-    )
-    return st
 
 
 def adjust_subtitles(outfile):
@@ -85,11 +100,10 @@ def adjust_subtitles(outfile):
     """
     td = timedelta(seconds=config.offset)
     # see http://stackoverflow.com/a/2459793/902327
-    with open(config.srt_file, "r", encoding='utf-8-sig') as infile:
-        for num, st in enumerate(get_subtitles(infile)):
-            adjust_subtitle(st, td)
-            st_text = "\n".join(st) + "\n\n"
-            outfile.write(st_text)
+    with open(config.srt_file, "r", encoding="utf-8-sig") as infile:
+        for num, se in enumerate(get_subtitles(infile)):
+            se.adjust(config.offset)
+            outfile.write(se.serialize())
 
 
 def start():
