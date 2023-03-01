@@ -104,8 +104,14 @@ def adjust_subtitles(outfile):
     td = timedelta(seconds=config.offset)
     # see http://stackoverflow.com/a/2459793/902327
     with open(config.srt_file, "r", encoding="utf-8-sig") as infile:
-        for num, se in enumerate(get_subtitles(infile)):
+        # we manually count indexes, cause we don't know how many we skip ...
+        index = 1
+        for se in get_subtitles(infile):
             se.adjust(config.offset)
+            if se.start.hour > 20:
+                continue
+            se.index = index
+            index += 1
             outfile.write(se.serialize())
 
 

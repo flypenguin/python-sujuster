@@ -1,3 +1,9 @@
+1.1.0
+-----
+
+- if we move subtitles up (i.e. show earlier), skip indexes which would be "below 0"
+
+
 1.0.3
 -----
 
