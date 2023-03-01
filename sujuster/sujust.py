@@ -48,19 +48,22 @@ def parse_args():
     """
     global config
     parser = ArgumentParser()
-    parser.add_argument("srt_file",
-                        help="The subtitle file to adjust")
-    parser.add_argument("offset",
-                        type=float,
-                        help="The offset of all subtitles. A positive number "
-                             "means that the subtitle will be later, a "
-                             "negative number that it will appear earlier. The "
-                             "number is a floating point number (1.3) "
-                             "representing seconds.")
-    parser.add_argument("-o", "--outfile",
-                        help="specify the output file. Default: output "
-                             "to stdout",
-                        default=None)
+    parser.add_argument("srt_file", help="The subtitle file to adjust")
+    parser.add_argument(
+        "offset",
+        type=float,
+        help="The offset of all subtitles. A positive number "
+        "means that the subtitle will be later, a "
+        "negative number that it will appear earlier. The "
+        "number is a floating point number (1.3) "
+        "representing seconds.",
+    )
+    parser.add_argument(
+        "-o",
+        "--outfile",
+        help="specify the output file. Default: output " "to stdout",
+        default=None,
+    )
     config = parser.parse_args()
 
 
