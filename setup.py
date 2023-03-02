@@ -5,7 +5,7 @@ import io
 from setuptools import setup, find_packages
 
 
-VERSION = "1.0.3"
+VERSION = "1.1.0"
 
 REQUIRED_PACKAGES = []
 

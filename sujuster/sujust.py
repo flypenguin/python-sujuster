@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from sys import stdout
 
 
-VERSION = "1.0.3"
+VERSION = "1.1.0"
 
 config = None
 
