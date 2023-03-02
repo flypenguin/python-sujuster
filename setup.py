@@ -11,11 +11,12 @@ REQUIRED_PACKAGES = []
 
 
 long_description = (
-    io.open('README.rst', encoding='utf-8').read() +
-    '\n' +
-    io.open('CHANGES.rst', encoding='utf-8').read()
+    io.open("README.rst", encoding="utf-8").read()
+    + "\n"
+    + io.open("CHANGES.rst", encoding="utf-8").read()
 )
 
+# fmt: off
 setup(
     name             = 'sujuster',
     packages         = find_packages(),
@@ -46,3 +47,4 @@ setup(
         "Topic :: Utilities",
     ],
 )
+# fmt: on
